@@ -1,18 +1,17 @@
 {
     "name": "makecode-sds011",
-    "version": "0.1.0",
-    "description": "Blocks to simplify using NovaFitnes SDS011 air quality sensor",
     "dependencies": {
-        "core": "*",
+        "core": "*"
     },
     "files": [
+        ".vscode/settings.json",
+        ".vscode/tasks.json",
+        "README.md",
         "main.blocks",
         "main.ts",
-        "README.md"
-        "sds011.ts"
-    ],
-    "testFiles": [
-        "test.ts"
+        "sds011.ts",
+        "test.ts",
+        "tsconfig.json"
     ],
     "supportedTargets": [
         "microbit"

@@ -1,1 +1,5 @@
-// tests go here; this will not be compiled when this package is used as an extension.
+basic.forever(function () {
+    SDS011.readAirQualityData()
+    basic.showNumber(SDS011.pm25Value())
+    basic.showNumber(SDS011.pm10Value())
+})
