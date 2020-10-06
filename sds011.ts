@@ -10,7 +10,6 @@
 namespace SDS011 {
     //Variables and setting default values
     let initialised = false
-    let sdsbuffer : Buffer = null
     let pm25 = 0
     let pm10 = 0
 
@@ -38,6 +37,7 @@ namespace SDS011 {
         if (initialised == false) {
             initConnection();
         }
+        let sdsbuffer : Buffer = null
         sdsbuffer = serial.readBuffer(10)
         // check if frame starts with 0xAA 0xC0 and ends with 0xAB
         if (sdsbuffer.getNumber(NumberFormat.UInt8LE, 0) == 170
