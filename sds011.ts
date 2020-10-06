@@ -12,8 +12,9 @@ namespace SDS011 {
     let initialised = false
     let pm25 = 0
     let pm10 = 0
+    let sdsbuffer : Buffer = null
 
-   /**
+    /**
      * This initialize UART connection the SDS011
      */
     //% block="Open UART Connection to SDS011"
@@ -36,17 +37,17 @@ namespace SDS011 {
     export function readAirQualityData():void {
         if (initialised == false) {
             initConnection();
-        } else {
-            let sdsbuffer : Buffer = null
-            sdsbuffer = serial.readBuffer(10)
-            // check if frame starts with 0xAA 0xC0 and ends with 0xAB
-            if (sdsbuffer.getNumber(NumberFormat.UInt8LE, 0) == 170
-                && sdsbuffer.getNumber(NumberFormat.UInt8LE, 1) == 192
-                && sdsbuffer.getNumber(NumberFormat.UInt8LE, 9) == 171) {
-                    pm25 = sdsbuffer.getNumber(NumberFormat.UInt16LE, 2) / 10
-                    pm10 = sdsbuffer.getNumber(NumberFormat.UInt16LE, 4) / 10
-            }
         }
+        sdsbuffer = serial.readBuffer(10)
+        // check if frame starts with 0xAA 0xC0 and ends with 0xAB
+        if (sdsbuffer.getNumber(NumberFormat.UInt8LE, 0) == 170
+            && sdsbuffer.getNumber(NumberFormat.UInt8LE, 1) == 192
+            && sdsbuffer.getNumber(NumberFormat.UInt8LE, 9) == 171) {
+        
+            pm25 = sdsbuffer.getNumber(NumberFormat.UInt16LE, 2) / 10
+            pm10 = sdsbuffer.getNumber(NumberFormat.UInt16LE, 4) / 10
+        }
+        
     }
 
     /**

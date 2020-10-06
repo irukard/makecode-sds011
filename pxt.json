@@ -4,7 +4,8 @@
     "description": "Blocks to simplify using NovaFitnes SDS011 air quality sensor",
     "license": "MIT",
     "dependencies": {
-        "core": "*"
+        "core": "*",
+        "SSD1306_OLED": "github:tinkertanker/pxt-oled-ssd1306#v2.0.12"
     },
     "files": [
         ".vscode/settings.json",
