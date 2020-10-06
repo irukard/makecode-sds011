@@ -31,20 +31,21 @@ namespace SDS011 {
     /**
      * Read 10 bytes from UART
      */
-    //% block="Read DATA from SDS011"
+    //% block="Read data from SDS011"
     //% block.loc.pl="Odczytaj dane z SDS011"
     export function readAirQualityData():void {
         if (initialised == false) {
             initConnection();
-        }
-        let sdsbuffer : Buffer = null
-        sdsbuffer = serial.readBuffer(10)
-        // check if frame starts with 0xAA 0xC0 and ends with 0xAB
-        if (sdsbuffer.getNumber(NumberFormat.UInt8LE, 0) == 170
-            && sdsbuffer.getNumber(NumberFormat.UInt8LE, 1) == 192
-            && sdsbuffer.getNumber(NumberFormat.UInt8LE, 9) == 171) {
-                pm25 = sdsbuffer.getNumber(NumberFormat.UInt16LE, 2) / 10
-                pm10 = sdsbuffer.getNumber(NumberFormat.UInt16LE, 4) / 10
+        } else {
+            let sdsbuffer : Buffer = null
+            sdsbuffer = serial.readBuffer(10)
+            // check if frame starts with 0xAA 0xC0 and ends with 0xAB
+            if (sdsbuffer.getNumber(NumberFormat.UInt8LE, 0) == 170
+                && sdsbuffer.getNumber(NumberFormat.UInt8LE, 1) == 192
+                && sdsbuffer.getNumber(NumberFormat.UInt8LE, 9) == 171) {
+                    pm25 = sdsbuffer.getNumber(NumberFormat.UInt16LE, 2) / 10
+                    pm10 = sdsbuffer.getNumber(NumberFormat.UInt16LE, 4) / 10
+            }
         }
     }
 
