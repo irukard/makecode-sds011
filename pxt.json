@@ -1,14 +1,15 @@
 {
-    "name": "repo test",
-    "description": "",
+    "name": "makecode-sds011",
+    "version": "0.1.0",
+    "description": "Blocks to simplify using NovaFitnes SDS011 air quality sensor",
     "dependencies": {
         "core": "*",
-        "radio": "*"
     },
     "files": [
         "main.blocks",
         "main.ts",
         "README.md"
+        "sds011.ts"
     ],
     "testFiles": [
         "test.ts"
