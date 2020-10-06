@@ -43,10 +43,8 @@ namespace SDS011 {
         if (sdsbuffer.getNumber(NumberFormat.UInt8LE, 0) == 170
             && sdsbuffer.getNumber(NumberFormat.UInt8LE, 1) == 192
             && sdsbuffer.getNumber(NumberFormat.UInt8LE, 9) == 171) {
-
-            pm25 = sdsbuffer.getNumber(NumberFormat.UInt16LE, 2) / 10
-            pm10 = sdsbuffer.getNumber(NumberFormat.UInt16LE, 4) / 10
-            led.toggle(0, 0)
+                pm25 = sdsbuffer.getNumber(NumberFormat.UInt16LE, 2) / 10
+                pm10 = sdsbuffer.getNumber(NumberFormat.UInt16LE, 4) / 10
         }
     }
 
