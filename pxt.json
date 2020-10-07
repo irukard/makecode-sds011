@@ -5,7 +5,6 @@
     "license": "MIT",
     "dependencies": {
         "core": "*",
-        "SSD1306_OLED": "github:tinkertanker/pxt-oled-ssd1306#v2.0.12"
     },
     "files": [
         ".vscode/settings.json",
