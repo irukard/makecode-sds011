@@ -1,12 +1,5 @@
-OLED.init(128, 64)
 basic.forever(function () {
     SDS011.readAirQualityData()
     led.toggle(0, 0)
-    OLED.clear()
-    OLED.writeNum(SDS011.pm25Value())
-    OLED.writeString(" / ")
-    OLED.writeNumNewLine(SDS011.pm10Value())
-    OLED.writeNum(Math.round(control.millis() / 6000) / 10)
-    OLED.writeString("min")
     basic.pause(200)
 })
