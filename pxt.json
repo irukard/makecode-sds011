@@ -4,7 +4,7 @@
     "description": "Blocks to simplify using NovaFitnes SDS011 air quality sensor",
     "license": "MIT",
     "dependencies": {
-        "core": "*",
+        "core": "*"
     },
     "files": [
         ".vscode/settings.json",
