@@ -9,7 +9,7 @@
 //% weight=100 color=#0fbc11 icon="\uf0c2"
 namespace SDS011 {
     //Variables and setting default values
-    let initialised = false
+    //let initialised = false
     let pm25 = 0
     let pm10 = 0
     let sdsbuffer : Buffer = null
@@ -19,14 +19,14 @@ namespace SDS011 {
      */
     //% block="Open UART Connection to SDS011"
     //% block.loc.pl="Połącz z SDS011 przez UART"
-    function initConnection(): void {
+    export function initConnection(): void {
         serial.setRxBufferSize(10)
         serial.redirect(
             SerialPin.P0,
             SerialPin.P1,
             BaudRate.BaudRate9600
         )
-        initialised = true
+        //initialised = true
     }
 
     /**
@@ -35,9 +35,9 @@ namespace SDS011 {
     //% block="Read data from SDS011"
     //% block.loc.pl="Odczytaj dane z SDS011"
     export function readAirQualityData():void {
-        if (initialised == false) {
-            initConnection();
-        }
+        //if (initialised == false) {
+        //    initConnection();
+        //}
         sdsbuffer = serial.readBuffer(10)
         // check if frame starts with 0xAA 0xC0 and ends with 0xAB
         if (sdsbuffer.getNumber(NumberFormat.UInt8LE, 0) == 170
