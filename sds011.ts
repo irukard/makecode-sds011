@@ -6,7 +6,7 @@
  * Nettigo.pl
  */
 
-//% weight=100 color=#11cc66 icon="\uf0c2"
+//% weight=100 color=#888888 icon="\uf0c2"
 namespace SDS011 {
     //Variables and setting default values
     //let initialised = false
@@ -39,13 +39,15 @@ namespace SDS011 {
         //    initConnection();
         //}
         sdsbuffer = serial.readBuffer(10)
+        pause(1);
         // check if frame starts with 0xAA 0xC0 and ends with 0xAB
         if (sdsbuffer.getNumber(NumberFormat.UInt8LE, 0) == 170
             && sdsbuffer.getNumber(NumberFormat.UInt8LE, 1) == 192
             && sdsbuffer.getNumber(NumberFormat.UInt8LE, 9) == 171) {
-        
+            pause(1);
             pm25 = sdsbuffer.getNumber(NumberFormat.UInt16LE, 2) / 10
             pm10 = sdsbuffer.getNumber(NumberFormat.UInt16LE, 4) / 10
+            pause(1);
         }
         
     }
