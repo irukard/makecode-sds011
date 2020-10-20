@@ -49,7 +49,21 @@ namespace SDS011 {
         }
         
     }
-
+    
+    /**
+     * Read SDS011 values in backgound
+     */
+    //% block="Read data from SDS011 in background"
+    //% block.loc.pl="Odczytaj dane z SDS011 w tle"
+    export function readAirQualityDataInBackgound():void {
+        while(true){
+            serial.onDataReceived(serial.delimiters(0xAA), function () {
+                SDS011.readAirQualityData()
+                led.toggle(0, 1)
+            })
+        }
+    }
+    
     /**
      * Return PM2.5 Air Quality Value
      */
