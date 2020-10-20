@@ -49,6 +49,7 @@ namespace SDS011 {
             pm10 = sdsbuffer.getNumber(NumberFormat.UInt16LE, 4) / 10
             pause(1);
         }
+        sdsbuffer = null
         
     }
     
