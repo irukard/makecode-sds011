@@ -6,7 +6,7 @@
  * Nettigo.pl
  */
 
-//% weight=100 color=#0fbc11 icon="\uf0c2"
+//% weight=100 color=#11cc66 icon="\uf0c2"
 namespace SDS011 {
     //Variables and setting default values
     //let initialised = false
