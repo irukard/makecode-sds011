@@ -17,13 +17,13 @@ namespace SDS011 {
     /**
      * This initialize UART connection the SDS011
      */
-    //% block="Open UART Connection to SDS011"
-    //% block.loc.pl="Połącz z SDS011 przez UART"
+    //% block="Open UART Connection to SDS011 (P1/P2)"
+    //% block.loc.pl="Połącz z SDS011 przez UART (P1/P2)"
     export function initConnection(): void {
         serial.setRxBufferSize(10)
         serial.redirect(
-            SerialPin.P0,
             SerialPin.P1,
+            SerialPin.P2,
             BaudRate.BaudRate9600
         )
         //initialised = true
@@ -39,15 +39,15 @@ namespace SDS011 {
         //    initConnection();
         //}
         sdsbuffer = serial.readBuffer(10)
-        pause(1);
+        //pause(1);
         // check if frame starts with 0xAA 0xC0 and ends with 0xAB
         if (sdsbuffer.getNumber(NumberFormat.UInt8LE, 0) == 170
             && sdsbuffer.getNumber(NumberFormat.UInt8LE, 1) == 192
             && sdsbuffer.getNumber(NumberFormat.UInt8LE, 9) == 171) {
-            pause(1);
+        //    pause(1);
             pm25 = sdsbuffer.getNumber(NumberFormat.UInt16LE, 2) / 10
             pm10 = sdsbuffer.getNumber(NumberFormat.UInt16LE, 4) / 10
-            pause(1);
+        //    pause(1);
         }
         sdsbuffer = null
         
@@ -56,8 +56,8 @@ namespace SDS011 {
     /**
      * Read SDS011 values in backgound
      */
-    //% block="Read data from SDS011 in background"
-    //% block.loc.pl="Odczytaj dane z SDS011 w tle"
+    //% block="Read data from SDS011 in background (not really stable)"
+    //% block.loc.pl="Odczytaj dane z SDS011 w tle (nie stabilna)"
     export function readAirQualityDataInBackgound():void {
             serial.onDataReceived(serial.delimiters(0xAA), function () {
                 SDS011.readAirQualityData()
