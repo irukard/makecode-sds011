@@ -7,7 +7,7 @@
  */
 
 //% weight=100 color=#888888 icon="\uf0c2"
-//% groups='["Setup", "Read Sensor Data", "Measured Values"]'
+//% groups='["Connection", "Read Sensor Data", "Measured Values"]'
 namespace SDS011 {
     //Variables and setting default values
     let initialised = false
@@ -21,7 +21,7 @@ namespace SDS011 {
      */
     //% block="Open connection to SDS011 (P1/P2)"
     //% block.loc.pl="Otwórz połączenie z SDS011 (P1/P2)"
-    //% group = "Setup"
+    //% group="Connection"
     export function initConnectionSDSOnly(): void {
         serial.setRxBufferSize(10)
         serial.redirect(
@@ -37,7 +37,7 @@ namespace SDS011 {
      */
     //% block="Open connection to SDS011 and PC (USB_TX/P2)"
     //% block.loc.pl="Otwórz połączenie z SDS011 i PC (USB_TX/P2)"
-    //% group = "Setup"
+    //% group="Connection"
     export function initConnectionSDSWithPC(): void {
         serial.setRxBufferSize(10)
         serial.redirect(
@@ -53,7 +53,7 @@ namespace SDS011 {
      */
     //% block="Open connection to SDS011 and OpenLog (P12/P2)"
     //% block.loc.pl="Otwórz połączenie z SDS011 i OpenLog (P12/P2)"
-    //% group = "Setup"
+    //% group="Connection"
     export function initConnectionSDSWithOpenLog(): void {
         serial.setRxBufferSize(10)
         serial.redirect(
