@@ -90,6 +90,7 @@ namespace SDS011 {
         control.inBackground(function () {
             while (true) {
                 SDS011.readAirQualityData()
+                basic.pause(950)
             }
         })
     }
