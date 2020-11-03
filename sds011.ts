@@ -7,6 +7,7 @@
  */
 
 //% weight=100 color=#888888 icon="\uf0c2"
+//% groups='["Setup", "Read Sensor Data", "Measured Values"]'
 namespace SDS011 {
     //Variables and setting default values
     let initialised = false
@@ -20,6 +21,7 @@ namespace SDS011 {
      */
     //% block="Open connection to SDS011 (P1/P2)"
     //% block.loc.pl="Otwórz połączenie z SDS011 (P1/P2)"
+    //% group = "Setup"
     export function initConnectionSDSOnly(): void {
         serial.setRxBufferSize(10)
         serial.redirect(
@@ -35,6 +37,7 @@ namespace SDS011 {
      */
     //% block="Open connection to SDS011 and PC (USB_TX/P2)"
     //% block.loc.pl="Otwórz połączenie z SDS011 i PC (USB_TX/P2)"
+    //% group = "Setup"
     export function initConnectionSDSWithPC(): void {
         serial.setRxBufferSize(10)
         serial.redirect(
@@ -50,6 +53,7 @@ namespace SDS011 {
      */
     //% block="Open connection to SDS011 and OpenLog (P12/P2)"
     //% block.loc.pl="Otwórz połączenie z SDS011 i OpenLog (P12/P2)"
+    //% group = "Setup"
     export function initConnectionSDSWithOpenLog(): void {
         serial.setRxBufferSize(10)
         serial.redirect(
@@ -65,6 +69,7 @@ namespace SDS011 {
      */
     //% block="Read data from SDS011"
     //% block.loc.pl="Odczytaj dane z SDS011"
+    //% group="Read Sensor Data"
     export function readAirQualityData():void {
         if (initialised == true) {
             uartbusy = 1
@@ -86,6 +91,7 @@ namespace SDS011 {
      */
     //% block="Read data from SDS011 in background"
     //% block.loc.pl="Odczytuj dane z SDS011 w tle"
+    //% group="Read Sensor Data"
     export function readAirQualityDataInBackgound():void {
         control.inBackground(function () {
             while (true) {
@@ -100,6 +106,7 @@ namespace SDS011 {
      */
     //% block="PM2.5 Value in μg/m³"
     //% block.loc.pl="Wartość PM2.5 w μg/m³"
+    //% group="Measured Values"
     export function pm25Value():number {
         return pm25
     }
@@ -109,6 +116,7 @@ namespace SDS011 {
      */
     //% block="PM10 Value in μg/m³"
     //% block.loc.pl="Wartość PM10 w μg/m³"
+    //% group="Measured Values"
     export function pm10Value():number {
         return pm10
     }
@@ -118,6 +126,7 @@ namespace SDS011 {
      */
     //% block="Send PM values over serial"
     //% block.loc.pl="Wyślij PM2.5 i PM10 na port szeregowy"
+    //% group="Measured Values"
     export function pmSerialSend():void {
         while (uartbusy == 1) {
             basic.pause(10)
