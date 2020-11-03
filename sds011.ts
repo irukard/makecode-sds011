@@ -13,6 +13,7 @@ namespace SDS011 {
     let pm25 = 0
     let pm10 = 0
     let sdsbuffer : Buffer = null
+    let uartbusy = 0
 
     /**
      * This initialize bi-directional UART connection the SDS011
@@ -66,7 +67,9 @@ namespace SDS011 {
     //% block.loc.pl="Odczytaj dane z SDS011"
     export function readAirQualityData():void {
         if (initialised == true) {
+            uartbusy = 1
             sdsbuffer = serial.readBuffer(10)
+            uartbusy = 0
             // check if frame starts with 0xAA 0xC0 and ends with 0xAB
             if (sdsbuffer.getNumber(NumberFormat.UInt8LE, 0) == 170
                 && sdsbuffer.getNumber(NumberFormat.UInt8LE, 1) == 192
@@ -82,12 +85,13 @@ namespace SDS011 {
      * Read SDS011 values in backgound (Experimental)
      */
     //% block="Read data from SDS011 in background"
-    //% block.loc.pl="Odczytaj dane z SDS011 w tle"
+    //% block.loc.pl="Odczytuj dane z SDS011 w tle"
     function readAirQualityDataInBackgound():void {
-            serial.onDataReceived(serial.delimiters(0xAA), function () {
+        control.inBackground(function () {
+            while (true) {
                 SDS011.readAirQualityData()
-                led.toggle(0, 1)
-            })        
+            }
+        })
     }
     
     /**
@@ -107,5 +111,19 @@ namespace SDS011 {
     export function pm10Value():number {
         return pm10
     }
-    
+
+    /**
+     * Send PM2.5 & PM10 Air Quality Value via Serial
+     */
+    //% block="Send PM values over serial"
+    //% block.loc.pl="Wyślij PM2.5 i PM10 na port szeregowy"
+    export function pmSerialSend():void {
+        while (uartbusy == 1) {
+            basic.pause(10)
+        }
+        serial.setBaudRate(BaudRate.BaudRate115200)
+        serial.writeValue("PM25", SDS011.pm25Value())
+        serial.writeValue("PM10", SDS011.pm10Value())
+        serial.setBaudRate(BaudRate.BaudRate9600)
+    }
 }
