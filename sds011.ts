@@ -86,7 +86,7 @@ namespace SDS011 {
      */
     //% block="Read data from SDS011 in background"
     //% block.loc.pl="Odczytuj dane z SDS011 w tle"
-    function readAirQualityDataInBackgound():void {
+    export function readAirQualityDataInBackgound():void {
         control.inBackground(function () {
             while (true) {
                 SDS011.readAirQualityData()
