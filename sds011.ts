@@ -8,6 +8,7 @@
 
 //% weight=100 color=#888888 icon="\uf0c2"
 //% groups='["Connection", "Read Sensor Data", "Measured Values"]'
+//% groups.loc.pl='["Połączenie", "Odczytaj dane z czujnika", "Zmierzone wartości"]'
 namespace SDS011 {
     //Variables and setting default values
     let initialised = false
