@@ -16,6 +16,10 @@
         "test.ts",
         "tsconfig.json"
     ],
+    "targetVersions": {
+        "target": "3.1.26",
+        "targetId": "microbit"
+    },
     "supportedTargets": [
         "microbit"
     ],

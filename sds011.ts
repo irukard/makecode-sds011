@@ -9,24 +9,54 @@
 //% weight=100 color=#888888 icon="\uf0c2"
 namespace SDS011 {
     //Variables and setting default values
-    //let initialised = false
+    let initialised = false
     let pm25 = 0
     let pm10 = 0
     let sdsbuffer : Buffer = null
 
     /**
-     * This initialize UART connection the SDS011
+     * This initialize bi-directional UART connection the SDS011
      */
-    //% block="Open UART Connection to SDS011 (P1/P2)"
-    //% block.loc.pl="Połącz z SDS011 przez UART (P1/P2)"
-    export function initConnection(): void {
+    //% block="Open connection to SDS011 (P1/P2)"
+    //% block.loc.pl="Otwórz połączenie z SDS011 (P1/P2)"
+    export function initConnectionSDSOnly(): void {
         serial.setRxBufferSize(10)
         serial.redirect(
             SerialPin.P1,
             SerialPin.P2,
             BaudRate.BaudRate9600
         )
-        //initialised = true
+        initialised = true
+    }
+
+    /**
+     * This initialize RX connection the SDS011, and TX to PC
+     */
+    //% block="Open connection to SDS011 and PC (USB_TX/P2)"
+    //% block.loc.pl="Otwórz połączenie z SDS011 i PC (USB_TX/P2)"
+    export function initConnectionSDSWithPC(): void {
+        serial.setRxBufferSize(10)
+        serial.redirect(
+            SerialPin.USB_TX,
+            SerialPin.P2,
+            BaudRate.BaudRate9600
+        )
+        initialised = true
+    }
+
+    /**
+     * This initialize RX connection the SDS011, and TX to OpenLog
+     */
+    //% block="Open connection to SDS011 and OpenLog (P12/P2)"
+    //% block.loc.pl="Otwórz połączenie z SDS011 i OpenLog (P12/P2)"
+    export function initConnectionSDSWithOpenLog(): void {
+        serial.setRxBufferSize(10)
+        serial.redirect(
+            SerialPin.P12,
+            SerialPin.P2,
+            BaudRate.BaudRate9600
+        )
+        initialised = true
     }
 
     /**
@@ -35,30 +65,25 @@ namespace SDS011 {
     //% block="Read data from SDS011"
     //% block.loc.pl="Odczytaj dane z SDS011"
     export function readAirQualityData():void {
-        //if (initialised == false) {
-        //    initConnection();
-        //}
-        sdsbuffer = serial.readBuffer(10)
-        //pause(1);
-        // check if frame starts with 0xAA 0xC0 and ends with 0xAB
-        if (sdsbuffer.getNumber(NumberFormat.UInt8LE, 0) == 170
-            && sdsbuffer.getNumber(NumberFormat.UInt8LE, 1) == 192
-            && sdsbuffer.getNumber(NumberFormat.UInt8LE, 9) == 171) {
-        //    pause(1);
-            pm25 = sdsbuffer.getNumber(NumberFormat.UInt16LE, 2) / 10
-            pm10 = sdsbuffer.getNumber(NumberFormat.UInt16LE, 4) / 10
-        //    pause(1);
-        }
-        sdsbuffer = null
-        
+        if (initialised == true) {
+            sdsbuffer = serial.readBuffer(10)
+            // check if frame starts with 0xAA 0xC0 and ends with 0xAB
+            if (sdsbuffer.getNumber(NumberFormat.UInt8LE, 0) == 170
+                && sdsbuffer.getNumber(NumberFormat.UInt8LE, 1) == 192
+                && sdsbuffer.getNumber(NumberFormat.UInt8LE, 9) == 171) {
+                pm25 = sdsbuffer.getNumber(NumberFormat.UInt16LE, 2) / 10
+                pm10 = sdsbuffer.getNumber(NumberFormat.UInt16LE, 4) / 10
+            }
+            //sdsbuffer = null
+        }        
     }
     
     /**
-     * Read SDS011 values in backgound
+     * Read SDS011 values in backgound (Experimental)
      */
-    //% block="Read data from SDS011 in background (not really stable)"
-    //% block.loc.pl="Odczytaj dane z SDS011 w tle (nie stabilna)"
-    export function readAirQualityDataInBackgound():void {
+    //% block="Read data from SDS011 in background"
+    //% block.loc.pl="Odczytaj dane z SDS011 w tle"
+    function readAirQualityDataInBackgound():void {
             serial.onDataReceived(serial.delimiters(0xAA), function () {
                 SDS011.readAirQualityData()
                 led.toggle(0, 1)
