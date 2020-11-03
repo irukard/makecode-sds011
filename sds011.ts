@@ -130,37 +130,35 @@ namespace SDS011 {
     }
 
     /**
-     * Return Avarage PM2.5 Air Quality Value Since Last Call
+     * Return Average PM2.5 Air Quality Value Since Last Call
      */
     //% block="Average PM2.5 Value in μg/m³"
     //% block.loc.pl="Średnia wartość PM2.5 w μg/m³"
     //% group="Measured Values"
     export function pm25AverageValue():number {
-        if (avgpm25cnt > 0) {
-            let avarage = avgpm25 / avgpm25cnt
-            avgpm25 = pm25
-            avgpm25cnt = 1
-            return avarage
-        } else {
+        if (avgpm25cnt == 0) {
             return 0
         }
+        let average = avgpm25 / avgpm25cnt
+        avgpm25 = pm25
+        avgpm25cnt = 1
+        return average
     }
 
     /**
-     * Return Avarage PM2.5 Air Quality Value Since Last Call
+     * Return Average PM2.5 Air Quality Value Since Last Call
      */
-    //% block="Avarage PM10 Value in μg/m³"
+    //% block="Average PM10 Value in μg/m³"
     //% block.loc.pl="Średnia wartość PM10 w μg/m³"
     //% group="Measured Values"
     export function pm10AverageValue():number {
-        if (avgpm10cnt > 0) {
-            let avarage = avgpm10 / avgpm10cnt
-            avgpm10 = pm10
-            avgpm10cnt = 1
-            return avarage
-        } else {
+        if (avgpm10cnt == 0) {
             return 0
         }
+        let average = avgpm10 / avgpm10cnt
+        avgpm10 = pm10
+        avgpm10cnt = 1
+        return average 
     }
 
     /**
