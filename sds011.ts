@@ -137,8 +137,8 @@ namespace SDS011 {
     //% group="Measured Values"
     export function pm25AverageValue():number {
         let avarage = avgpm25 / avgpm25cnt
-        avgpm25 = 0
-        avgpm25cnt = 0
+        avgpm25 = pm25
+        avgpm25cnt = 1
         return avarage
     }
 
@@ -150,8 +150,8 @@ namespace SDS011 {
     //% group="Measured Values"
     export function pm10AverageValue():number {
         let avarage = avgpm10 / avgpm10cnt
-        avgpm10 = 0
-        avgpm10cnt = 0
+        avgpm10 = pm10
+        avgpm10cnt = 1
         return avarage
     }
 
