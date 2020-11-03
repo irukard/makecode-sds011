@@ -136,10 +136,14 @@ namespace SDS011 {
     //% block.loc.pl="Średnia wartość PM2.5 w μg/m³"
     //% group="Measured Values"
     export function pm25AverageValue():number {
-        let avarage = avgpm25 / avgpm25cnt
-        avgpm25 = pm25
-        avgpm25cnt = 1
-        return avarage
+        if (avgpm25cnt > 0) {
+            let avarage = avgpm25 / avgpm25cnt
+            avgpm25 = pm25
+            avgpm25cnt = 1
+            return avarage
+        } else {
+            return 0
+        }
     }
 
     /**
@@ -149,10 +153,14 @@ namespace SDS011 {
     //% block.loc.pl="Średnia wartość PM10 w μg/m³"
     //% group="Measured Values"
     export function pm10AverageValue():number {
-        let avarage = avgpm10 / avgpm10cnt
-        avgpm10 = pm10
-        avgpm10cnt = 1
-        return avarage
+        if (avgpm10cnt > 0) {
+            let avarage = avgpm10 / avgpm10cnt
+            avgpm10 = pm10
+            avgpm10cnt = 1
+            return avarage
+        } else {
+            return 0
+        }
     }
 
     /**
