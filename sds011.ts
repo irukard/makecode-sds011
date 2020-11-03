@@ -13,6 +13,10 @@ namespace SDS011 {
     let initialised = false
     let pm25 = 0
     let pm10 = 0
+    let avgpm25 = 0
+    let avgpm10 = 0
+    let avgpm25cnt = 0
+    let avgpm10cnt = 0
     let sdsbuffer : Buffer = null
     let uartbusy = 0
 
@@ -81,6 +85,10 @@ namespace SDS011 {
                 && sdsbuffer.getNumber(NumberFormat.UInt8LE, 9) == 171) {
                 pm25 = sdsbuffer.getNumber(NumberFormat.UInt16LE, 2) / 10
                 pm10 = sdsbuffer.getNumber(NumberFormat.UInt16LE, 4) / 10
+                avgpm25 += pm25
+                avgpm25cnt++
+                avgpm10 += pm10
+                avgpm10cnt++
             }
             //sdsbuffer = null
         }        
@@ -104,8 +112,8 @@ namespace SDS011 {
     /**
      * Return PM2.5 Air Quality Value
      */
-    //% block="PM2.5 Value in μg/m³"
-    //% block.loc.pl="Wartość PM2.5 w μg/m³"
+    //% block="Current PM2.5 Value in μg/m³"
+    //% block.loc.pl="Aktualna wartość PM2.5 w μg/m³"
     //% group="Measured Values"
     export function pm25Value():number {
         return pm25
@@ -114,26 +122,69 @@ namespace SDS011 {
     /**
      * Return PM10 Air Quality Value
      */
-    //% block="PM10 Value in μg/m³"
-    //% block.loc.pl="Wartość PM10 w μg/m³"
+    //% block="Current PM10 Value in μg/m³"
+    //% block.loc.pl="Aktualna Wartość PM10 w μg/m³"
     //% group="Measured Values"
     export function pm10Value():number {
         return pm10
     }
 
     /**
-     * Send PM2.5 & PM10 Air Quality Value via Serial
+     * Return Avarage PM2.5 Air Quality Value Since Last Call
      */
-    //% block="Send PM values over serial"
-    //% block.loc.pl="Wyślij PM2.5 i PM10 na port szeregowy"
+    //% block="Average PM2.5 Value in μg/m³"
+    //% block.loc.pl="Średnia wartość PM2.5 w μg/m³"
+    //% group="Measured Values"
+    export function pm25AverageValue():number {
+        let avarage = avgpm25 / avgpm25cnt
+        avgpm25 = 0
+        avgpm25cnt = 0
+        return avarage
+    }
+
+    /**
+     * Return Avarage PM2.5 Air Quality Value Since Last Call
+     */
+    //% block="Avarage PM10 Value in μg/m³"
+    //% block.loc.pl="Średnia wartość PM10 w μg/m³"
+    //% group="Measured Values"
+    export function pm10AverageValue():number {
+        let avarage = avgpm10 / avgpm10cnt
+        avgpm10 = 0
+        avgpm10cnt = 0
+        return avarage
+    }
+
+    /**
+     * Send Current PM2.5 & PM10 Air Quality Value via Serial
+     */
+    //% block="Send Current PM values over serial"
+    //% block.loc.pl="Wyślij aktualne PM2.5 i PM10 na port szeregowy"
     //% group="Measured Values"
     export function pmSerialSend():void {
         while (uartbusy == 1) {
             basic.pause(10)
         }
         serial.setBaudRate(BaudRate.BaudRate115200)
-        serial.writeValue("PM25", SDS011.pm25Value())
-        serial.writeValue("PM10", SDS011.pm10Value())
+        serial.writeValue("PM25CUR", SDS011.pm25Value())
+        serial.writeValue("PM10CUR", SDS011.pm10Value())
         serial.setBaudRate(BaudRate.BaudRate9600)
     }
+
+    /**
+     * Send Average PM2.5 & PM10 Air Quality Value via Serial
+     */
+    //% block="Send Average PM values over serial"
+    //% block.loc.pl="Wyślij średnie PM2.5 i PM10 na port szeregowy"
+    //% group="Measured Values"
+    export function pmAverageSerialSend():void {
+        while (uartbusy == 1) {
+            basic.pause(10)
+        }
+        serial.setBaudRate(BaudRate.BaudRate115200)
+        serial.writeValue("PM25AVG", SDS011.pm25AverageValue())
+        serial.writeValue("PM10AVG", SDS011.pm10AverageValue())
+        serial.setBaudRate(BaudRate.BaudRate9600)
+    }
+
 }
