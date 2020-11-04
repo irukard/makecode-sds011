@@ -100,7 +100,7 @@ namespace SDS011 {
     }
     
     /**
-     * Read SDS011 values in backgound (Experimental)
+     * Read SDS011 values in backgound
      */
     //% block="Read data from SDS011 in background"
     //% block.loc.pl="Odczytuj dane z SDS011 w tle"
@@ -198,6 +198,25 @@ namespace SDS011 {
         serial.setBaudRate(BaudRate.BaudRate115200)
         serial.writeValue("AVG_PM.25", SDS011.pm25AverageValue())
         serial.writeValue("AVG_PM.10", SDS011.pm10AverageValue())
+        serial.setBaudRate(BaudRate.BaudRate9600)
+        uartbusy115200 = 0
+    }
+
+    /**
+     * Send Value via Serial
+     * @param name name of the value stream, eg: x
+     * @param value to write
+     */
+    //% block="Send %name = %value over serial"
+    //% block.loc.pl="Wyślij %name = %value na port szeregowy"
+    //% group="Measured Values"
+    export function valueSerialSend(name: string, value: number):void {
+        while (uartbusy9600 == 1) {
+            basic.pause(10)
+        }
+        uartbusy115200 = 1
+        serial.setBaudRate(BaudRate.BaudRate115200)
+        serial.writeValue(name, value)
         serial.setBaudRate(BaudRate.BaudRate9600)
         uartbusy115200 = 0
     }
