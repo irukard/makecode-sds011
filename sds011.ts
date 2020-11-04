@@ -19,7 +19,8 @@ namespace SDS011 {
     let avgpm25cnt = 0
     let avgpm10cnt = 0
     let sdsbuffer : Buffer = null
-    let uartbusy = 0
+    let uartbusy9600 = 0
+    let uartbusy115200 = 0
 
     /**
      * This initialize bi-directional UART connection the SDS011
@@ -77,9 +78,12 @@ namespace SDS011 {
     //% group="Read Sensor Data"
     export function readAirQualityData():void {
         if (initialised == true) {
-            uartbusy = 1
+            while (uartbusy115200 == 1) {
+                basic.pause(10)
+            }
+            uartbusy9600 = 1
             sdsbuffer = serial.readBuffer(10)
-            uartbusy = 0
+            uartbusy9600 = 0
             // check if frame starts with 0xAA 0xC0 and ends with 0xAB
             if (sdsbuffer.getNumber(NumberFormat.UInt8LE, 0) == 170
                 && sdsbuffer.getNumber(NumberFormat.UInt8LE, 1) == 192
@@ -169,13 +173,15 @@ namespace SDS011 {
     //% block.loc.pl="Wyślij aktualne PM2.5 i PM10 na port szeregowy"
     //% group="Measured Values"
     export function pmSerialSend():void {
-        while (uartbusy == 1) {
+        while (uartbusy9600 == 1) {
             basic.pause(10)
         }
+        uartbusy115200 = 1
         serial.setBaudRate(BaudRate.BaudRate115200)
-        serial.writeValue("PM25CUR", SDS011.pm25Value())
-        serial.writeValue("PM10CUR", SDS011.pm10Value())
+        serial.writeValue("CUR_PM.25", SDS011.pm25Value())
+        serial.writeValue("CUR_PM.10", SDS011.pm10Value())
         serial.setBaudRate(BaudRate.BaudRate9600)
+        uartbusy115200 = 0
     }
 
     /**
@@ -185,13 +191,15 @@ namespace SDS011 {
     //% block.loc.pl="Wyślij średnie PM2.5 i PM10 na port szeregowy"
     //% group="Measured Values"
     export function pmAverageSerialSend():void {
-        while (uartbusy == 1) {
+        while (uartbusy9600 == 1) {
             basic.pause(10)
         }
+        uartbusy115200 = 1
         serial.setBaudRate(BaudRate.BaudRate115200)
-        serial.writeValue("PM25AVG", SDS011.pm25AverageValue())
-        serial.writeValue("PM10AVG", SDS011.pm10AverageValue())
+        serial.writeValue("AVG_PM.25", SDS011.pm25AverageValue())
+        serial.writeValue("AVG_PM.10", SDS011.pm10AverageValue())
         serial.setBaudRate(BaudRate.BaudRate9600)
+        uartbusy115200 = 0
     }
 
 }
